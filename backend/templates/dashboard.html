@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+ 
+  <title>Phishing Detection Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    tr:hover { background-color: #f9f9f9; }
+    .phishing-true { color: red; font-weight: bold; }
+    .phishing-false { color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Phishing Detection Logs</h1>
+  <form action="/clear_logs" method="post" style="margin-bottom: 20px;">
+  <button type="submit" onclick="return confirm('Are you sure you want to delete all logs?');">
+    🗑️ Clear All Logs
+  </button>
+</form>
+
+<form method="post" action="/check_url_form" style="margin-bottom: 20px;">
+  <input type="text" name="url" placeholder="Enter URL to check..." style="width: 300px;" required>
+  <button type="submit">🔍 Check URL</button>
+</form>
+
+{% if result %}
+  <div style="padding: 10px; border: 1px solid #ccc; margin-bottom: 20px;">
+    <strong>Scanned URL:</strong> {{ result.url }}<br>
+    <strong>Phishing Detected:</strong>
+    <span class="phishing-{{ result.is_phishing }}">{{ result.is_phishing }}</span><br>
+    <strong>Detected By:</strong>
+    <ul>
+      {% for method, detected in result.detected_by.items() %}
+        {% if detected %}
+          <li>{{ method }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Detected Phishing</th>
+        <th>Detected By</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td>{{ log.url }}</td>
+        <td class="phishing-{{ log.is_phishing }}">{{ log.is_phishing }}</td>
+        <td>
+          {% if log.detected_by is defined and log.detected_by %}
+            {% for method, detected in log.detected_by.items() %}
+              {% if detected %}
+                <div>{{ method }}</div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <em>N/A</em>
+          {% endif %}
+        </td>
+        <td>
+          <pre>{{ log.details | tojson(indent=2) }}</pre>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,59 @@
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 20px;
+  background-color: #fafafa;
+  color: #333;
+}
+ 
+h1 {
+  color: #007BFF;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #007BFF;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f3f6fb;
+}
+
+tr:hover {
+  background-color: #e9f0ff;
+}
+
+.phishing-true {
+  color: #d93025; /* red */
+  font-weight: bold;
+}
+
+.phishing-false {
+  color: #188038; /* green */
+  font-weight: bold;
+}
+
+pre {
+  white-space: pre-wrap;
+  font-size: 0.9em;
+  background-color: #f6f8fa;
+  padding: 8px;
+  border-radius: 4px;
+  overflow-x: auto;
+  max-width: 400px;
+}
